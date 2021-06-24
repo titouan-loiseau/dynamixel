@@ -3,6 +3,23 @@ Dynamixel Repo
 
 Repo pour les fichiers et les programmes des servo-moteurs. 
 
+Setup
+------
+
+1. Cloner ce repo dans un dossier 
+`git clone https://github.com/titouan-loiseau/dynamixel.git .`
+**Ne pas oublier le .**
+
+2. Cloner les SDK Dynamixel
+`git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git`
+
+3. Ouvrir `DynamixelSDK/python` dans un terminal
+
+4. Exécuter:
+`python setup.py install`
+
+5. Une fois la librairie installée, vous pouvez supprimer le fichier `DynamixelSDK` 
+
 Servo-moteurs
 ------
 Ref: AX-12A
