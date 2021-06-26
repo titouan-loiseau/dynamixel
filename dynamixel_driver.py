@@ -7,26 +7,26 @@ from dynamixel_sdk import *
 PROTOCOL_VERSION = 1.0
 
 class Servo:
-    def __init__(self, name, id ):
+    def __init__(self, name, id, driver):
         self.name = name     # Nom personnalisable du servo
         self.id = id         # ID Dynamixel du servo
+        self.driver = driver # driver qui prendra en charge les communications USB
 
         # ADDRESSES POUR LES AX-12A
         self.addr_activation_couple = 24
         self.addr_position_voulue   = 30
         self.addr_position_actuelle = 36
-
-        # VALEURS PAR DEFAUT POUR LES AX-12A
-        self.baudrate = 1000000
         pass
     def tourner(self):
         print("test")
 
 class Driver:
-    def __init__(self, port):
+    def __init__(self, port, baudrate):
         self.port = port
         self.portHandler = PortHandler(port)
         self.packetHandler = PacketHandler(PROTOCOL_VERSION)
+        self.initiated = 0
+        self.baudrate = baudrate
         pass
 
     def getch():
@@ -60,3 +60,23 @@ class Driver:
             print("Appuyez sur n'importe quelle touche pour quitter...")
             self.getch()
             quit()
+        self.initiated = 1
+    
+    def exemple(self):
+        if self.initiated == 0:
+            print("Le driver n'a pas encore été initialisé. Veuillez appeler driver.init()")
+        else:
+            print("test")
+
+    def ping(self, id):
+        if self.initiated == 0:
+            print("Le driver n'a pas encore été initialisé. Veuillez appeler driver.init()")
+        else:
+            # Le ping lit la valeur dans l'addresse 0 (numéro de modèle) et regarde si sa valeur est non nulle, auquel cas le servo existe
+            dxl_model_number, dxl_comm_result, dxl_error = self.packetHandler.read2ByteTxRx(self.portHandler, id, 0)
+            if dxl_comm_result != COMM_SUCCESS or dxl_model_number == 0:
+                print("PING: L'ID %d n'existe pas" % id)
+            elif dxl_error != 0:
+                print("ERREUR LORS DE LA LECTURE DU PAQUET : %s" % self.packetHandler.getRxPacketError(dxl_error))
+            else: 
+                print("PING: L'ID %d est présent sur le bus" % id)
