@@ -87,11 +87,21 @@ class Driver:
         else:
             i = 0
             while i <= taille :
-                dxl_memory_read, dxl_comm_result, dxl_error = self.packetHandler.read1ByteTxRx(self.portHandler, id, i)
-                if dxl_comm_result != COMM_SUCCESS:
-                    print("ERREUR DANS LA LECTURE DE LA MEMOIRE A L'ADDRESSE %d" % i)
-                elif dxl_error != 0:
-                    print("ERREUR LORS DE LA LECTURE DU PAQUET A L'ADRESSE %d: %s" % (i, self.packetHandler.getRxPacketError(dxl_error)))
-                else: 
-                    print("MEM [%2d]: %3d" % (i,dxl_memory_read))
-                i+=1 
+                j = 0
+                mem_str = ("MEM [0x%04X]: " % i)
+                while j < 8:
+                    dxl_memory_read, dxl_comm_result, dxl_error = self.packetHandler.read1ByteTxRx(self.portHandler, id, i+j)
+                    if dxl_comm_result != COMM_SUCCESS:
+                        print("ERREUR DANS LA LECTURE DE LA MEMOIRE A L'ADDRESSE %d" % i)
+                        return
+                    elif dxl_error != 0:
+                        print("ERREUR LORS DE LA LECTURE DU PAQUET A L'ADRESSE %d: %s" % (i, self.packetHandler.getRxPacketError(dxl_error)))
+                        return
+                    else: 
+                        mem_str += ("%02X " % dxl_memory_read)
+                    if i+j <= taille:
+                        j += 1
+                    else:
+                        j = 10
+                print(mem_str)
+                i+=8 
