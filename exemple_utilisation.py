@@ -8,3 +8,4 @@ ax_12a_driver.init()
 servo4 = Servo("Servomoteur 4", 4, ax_12a_driver)
 
 ax_12a_driver.ping(4)
+ax_12a_driver.lire_memoire(4, 48)
