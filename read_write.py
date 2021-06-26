@@ -66,7 +66,7 @@ TORQUE_ENABLE               = 1                 # Value for enabling the torque
 TORQUE_DISABLE              = 0                 # Value for disabling the torque
 DXL_MINIMUM_POSITION_VALUE  = 400          # Dynamixel will rotate between this value
 DXL_MAXIMUM_POSITION_VALUE  = 600            # and this value (note that the Dynamixel would not move when the position value is out of movable range. Check e-manual about the range of the Dynamixel you use.)
-DXL_MOVING_STATUS_THRESHOLD = 20                # Dynamixel moving status threshold
+DXL_MOVING_STATUS_THRESHOLD = 5                # Dynamixel moving status threshold
 
 index = 0
 dxl_goal_position = [DXL_MINIMUM_POSITION_VALUE, DXL_MAXIMUM_POSITION_VALUE]         # Goal position
